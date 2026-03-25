@@ -139,6 +139,23 @@ public class tryBST{
                 inorderPrintRec(node.right);
             }
         }
+    public void printTree() {
+            printTreeRec(root, 0);
+        }
+        private void printTreeRec(tNode node, int level) {
+            if (node == null) {
+                return;
+            }
+            printTreeRec(node.right, level + 1);
+            for (int i = 0; i < level; i++) {
+                System.out.print("    ");
+            }
+            System.out.println(node.key);
+            printTreeRec(node.left, level + 1);
+        }
+    }
+  
+    
     
     
     
