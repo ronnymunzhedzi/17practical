@@ -88,6 +88,59 @@ public class tryBST{
                 return searchRec(node.right, key);
             }
         }
+    public boolean isBST() {
+            return isBSTRec(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
+        }
+        private boolean isBSTRec(tNode node, int min, int max) {
+            if (node == null) {
+                return true;
+            }
+            if (node.key < min || node.key > max) {
+                return false;
+            }
+            return isBSTRec(node.left, min, node.key - 1) &&
+                    isBSTRec(node.right, node.key + 1, max);
+        }
+    public void deleteAllEven() {
+            ArrayList<Integer> evenKeys = new ArrayList<>();
+            collectEvenKeys(root, evenKeys);
+            for (int key : evenKeys) {
+                delete(key);
+            }
+        }
+        private void collectEvenKeys(tNode node, ArrayList<Integer> list) {
+            if (node == null) {
+                return;
+            }
+            collectEvenKeys(node.left, list);
+            if (node.key % 2 == 0) {
+                list.add(node.key);
+            }
+            collectEvenKeys(node.right, list);
+        }
+        public int getSize() {
+            return size;
+        }
+        public void clear() {
+            root = null;
+            size = 0;
+        }
+        public tNode getRoot() {
+            return root;
+        }
+        public void inorderPrint() {
+            inorderPrintRec(root);
+            System.out.println();
+        }
+        private void inorderPrintRec(tNode node) {
+            if (node != null) {
+                inorderPrintRec(node.left);
+                System.out.print(node.key + " ");
+                inorderPrintRec(node.right);
+            }
+        }
+    
+    
     
     
     
