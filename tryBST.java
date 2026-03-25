@@ -73,6 +73,23 @@ public class tryBST{
       }
       return node;
     }
+    private boolean searchRec(tNode node, int key) {
+            if (node == null) {
+                return false;
+            }
+
+            if (key == node.key) {
+                return true;
+            }
+
+            if (key < node.key) {
+                return searchRec(node.left, key);
+            } else {
+                return searchRec(node.right, key);
+            }
+        }
+    
+    
     
     
           
