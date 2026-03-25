@@ -223,6 +223,75 @@ public class tryBST{
                 (populateTimes.length > 0 ? "Yes (by construction)" : "N/A"));
         System.out.println("\nPractical completed successfully!");
     }
+  private static void buildBalancedBST(BinarySearchTree bst, int start, int end) {
+        if (start > end) {
+            return;
+        }
+        int middle = start + (end - start) / 2;
+        bst.insert(middle);
+        buildBalancedBST(bst, start, middle - 1);
+        buildBalancedBST(bst, middle + 1, end);
+    }
+    private static double estimateOperationTime(int n) {
+        int totalKeys = (1 << n) - 1;
+        BinarySearchTree bst = new BinarySearchTree();
+        long start = System.nanoTime();
+        buildBalancedBST(bst, 1, totalKeys);
+        long end = System.nanoTime();
+        double populateTime = (end - start) / 1_000_000.0;
+        start = System.nanoTime();
+        bst.deleteAllEven();
+        end = System.nanoTime();
+        double deleteTime = (end - start) / 1_000_000.0;
+        return (populateTime + deleteTime) / 2;
+    }
+    private static double calculateAverage(double[] values) {
+        double sum = 0;
+        for (double val : values) {
+            sum += val;
+        }
+        return sum / values.length;
+    }
+    private static double calculateStdDev(double[] values, double mean) {
+        double sumSq = 0;
+        for (double val : values) {
+            sumSq += (val - mean) * (val - mean);
+        }
+        return Math.sqrt(sumSq / (values.length - 1));
+    }
+    private static void testWithSmallN() {
+        System.out.println("\n=== TESTING WITH SMALL N ===");
+        int[] testSizes = {3, 4, 5};
+        for (int n : testSizes) {
+            int totalKeys = (1 << n) - 1;
+            System.out.println("\nTesting with n=" + n + " (keys 1.." + totalKeys + ")");
+            BinarySearchTree bst = new BinarySearchTree();
+            buildBalancedBST(bst, 1, totalKeys);
+            boolean isValid = bst.isBST();
+            System.out.println("  isBST(): " + isValid);
+            if (!isValid) {
+                System.out.println("  ERROR: Tree is not a valid BST!");
+                bst.printTree();
+                return;
+            }
+            if (n <= 3) {
+                System.out.println("  Tree structure:");
+                bst.printTree();
+            }
+            bst.deleteAllEven();
+            System.out.println("  After deleting evens, size: " + bst.getSize());
+            System.out.println("  Expected odd count: " + ((totalKeys + 1) / 2));
+            if (bst.getSize() == (totalKeys + 1) / 2) {
+                System.out.println("  All evens deleted successfully");
+            } else {
+                System.out.println(" Incorrect number of nodes after deletion");
+            }
+        }
+        System.out.println("\n Small test passed!\n");
+    }
+}
+
+  
   
   
     
