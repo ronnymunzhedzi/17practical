@@ -39,7 +39,45 @@ public class tryBST{
       }
       return false;
     }
-    private tNode
+    private tNode deleteRec(tNode,int key) {
+      if ( node== null){
+        return null;
+      }
+      if (key < node.key) {
+                node.left = deleteRec(node.left, key);
+            } else if (key > node.key) {
+                node.right = deleteRec(node.right, key);
+            } else {
+        if ( node.left == null && node .right ==null){
+          return null;
+        }
+        else if ( node.left == null){
+          return node.right;
+        }
+        else if ( node.right == null) {
+          return node.right;
+        } else if ( node .right == null){
+          return node.left;
+        }
+        else{
+          tNode succesor = findMin( node.right);
+          node.key= succesor.key;
+          node.right = deleteRec(node.right ,succesor.key);
+        }
+      }
+      return node;
+    }
+    private tNode findMin(tnode node) {
+      while ( node.left!=null) {
+        node = node.left;
+      }
+      return node;
+    }
+    
+    
+          
+        
+      
         
     
       
